@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.base",
+  "include": ["../vitest/**/*.ts", "../../src/**/*.ts", "../../types/vitest/*.d.ts"],
+  "exclude": ["../../src/**/*.end-to-end.test.ts", "../../src/**/end-to-end.test.ts"],
+  "compilerOptions": {
+    "paths": {
+      "~/*": ["src/*"]
+    },
+    "rootDir": "../..",
+    "types": ["@total-typescript/ts-reset", "node"],
+    "composite": true,
+    "tsBuildInfoFile": "../../node_modules/.cache/typescript/tsconfig.vitest.tsbuildinfo",
+    "skipLibCheck": true
+  }
+}

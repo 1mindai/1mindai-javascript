@@ -1,0 +1,6 @@
+# Artifacts and Compiled Output
+.turbo
+dist
+
+# Dependencies
+node_modules

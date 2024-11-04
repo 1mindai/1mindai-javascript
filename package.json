@@ -1,0 +1,63 @@
+{
+  "name": "1mindai-javascript",
+  "version": "0.1.0",
+  "description": "Official 1mind AI SDKs for JavaScript",
+  "license": "UNLICENSED",
+  "author": "1mind AI <engineering@1mind.com> (https://1mind.com)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1mindai/1mindai-javascript.git"
+  },
+  "type": "module",
+  "scripts": {
+    "clean": "concurrently --group --raw \"yarn:clean:*\"",
+    "clean:artifact": "del \"*.log*\"",
+    "clean:cache": "del .turbo node_modules/.cache",
+    "format": "prettier --cache=node_modules/.cache/prettier/ --check --ignore-path=.prettierignore --log-level=warn \"**/*.@(json|md|yml)\"",
+    "lint": "concurrently --group --raw \"yarn:lint:*\"",
+    "lint:javascript": "eslint --cache --cache-location=node_modules/.cache/eslint/ \"**/*.[jt]s\"",
+    "lint:typescript": "tsc --build",
+    "postinstall": "husky",
+    "refine": "concurrently --group --raw \"yarn:format\" \"yarn:lint\""
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@commitlint/types": "^19.5.0",
+    "@eslint/js": "^9.14.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/lint-staged": "^13.3.0",
+    "@types/node": "^22.8.7",
+    "commitizen": "^4.3.1",
+    "concurrently": "^9.1.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "del-cli": "^6.0.0",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import-x": "^4.4.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-promise": "^7.1.0",
+    "eslint-plugin-unicorn": "^56.0.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "turbo": "^2.2.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.13.0"
+  },
+  "engines": {
+    "node": ">=22.11",
+    "yarn": ">=4.5"
+  },
+  "private": true,
+  "packageManager": "yarn@4.5.1+sha512.341db9396b6e289fecc30cd7ab3af65060e05ebff4b3b47547b278b9e67b08f485ecd8c79006b405446262142c7a38154445ef7f17c1d5d1de7d90bf9ce7054d",
+  "workspaces": [
+    "packages/*"
+  ]
+}

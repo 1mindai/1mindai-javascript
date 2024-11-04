@@ -1,0 +1,17 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "config/typescript/tsconfig.eslint.json"
+    },
+    {
+      "path": "config/typescript/tsconfig.lint-staged.json"
+    },
+    {
+      "path": "config/typescript/tsconfig.rollup.json"
+    },
+    {
+      "path": "config/typescript/tsconfig.vitest.json"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "name": "@1mindai/browser",
+  "version": "0.1.0",
+  "description": "Official 1mind AI SDK for browsers",
+  "license": "MIT",
+  "author": "1mind AI <engineering@1mind.com> (https://1mind.com)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1mindai/1mindai-javascript.git",
+    "directory": "packages/browser"
+  },
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.js"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "cross-env NODE_OPTIONS=\"--experimental-strip-types --no-warnings=ExperimentalWarning\" rollup --config=rollup.config.ts",
+    "clean": "concurrently --group --raw \"yarn:clean:*\"",
+    "clean:artifact": "del .turbo dist \"*.log*\"",
+    "clean:cache": "del node_modules/.cache",
+    "format": "prettier --cache=node_modules/.cache/prettier/ --check --ignore-path=.prettierignore --log-level=warn \"**/*.@(json|md|yml)\"",
+    "lint": "concurrently --group --raw \"yarn:lint:*\"",
+    "lint:javascript": "eslint --cache --cache-location=node_modules/.cache/eslint/ \"**/*.[jt]s\"",
+    "lint:typescript": "tsc --build",
+    "refine": "concurrently --group --raw \"yarn:format\" \"yarn:lint\"",
+    "test": "concurrently --group --raw \"yarn:test:*\"",
+    "test:unit": "vitest --config=config/vitest/vitest.config.unit.ts --pass-with-no-tests"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.14.0",
+    "@total-typescript/ts-reset": "^0.6.1",
+    "@types/eslint__js": "^8.42.3",
+    "@types/lint-staged": "^13.3.0",
+    "@types/node": "^22.8.7",
+    "@typescript-eslint/utils": "^8.13.0",
+    "@vitest/coverage-v8": "^2.1.4",
+    "@vitest/eslint-plugin": "^1.1.7",
+    "@vitest/ui": "^2.1.4",
+    "concurrently": "^9.1.0",
+    "cross-env": "^7.0.3",
+    "del-cli": "^6.0.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import-x": "^4.4.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-promise": "^7.1.0",
+    "eslint-plugin-unicorn": "^56.0.0",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "rollup": "^4.24.4",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-esbuild": "^6.1.1",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.13.0",
+    "vitest": "^2.1.4",
+    "zod": "^3.23.8"
+  },
+  "engines": {
+    "node": ">=22.11",
+    "yarn": ">=4.5"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "globalPassThroughEnv": ["NODE_ENV"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "//#clean:artifact": {
+      "cache": false,
+      "outputs": []
+    },
+    "clean:artifact": {
+      "cache": false,
+      "outputs": []
+    },
+    "//#clean:cache": {
+      "cache": false,
+      "outputs": []
+    },
+    "clean:cache": {
+      "cache": false,
+      "outputs": []
+    },
+    "//#format": {
+      "inputs": [
+        "**/*.json",
+        "**/*.md",
+        "**/*.yml",
+        "!.git",
+        "!.idea",
+        "!.turbo",
+        "!.vscode",
+        "!.yarn",
+        "!node_modules",
+        "!packages"
+      ],
+      "outputs": ["node_modules/.cache/prettier/**"]
+    },
+    "format": {
+      "outputs": ["node_modules/.cache/prettier/**"]
+    },
+    "//#lint:javascript": {
+      "inputs": [
+        "**/*.js",
+        "**/*.ts",
+        "!.git",
+        "!.idea",
+        "!.turbo",
+        "!.vscode",
+        "!.yarn",
+        "!node_modules",
+        "!packages"
+      ],
+      "outputs": ["node_modules/.cache/eslint/**"]
+    },
+    "lint:javascript": {
+      "outputs": ["node_modules/.cache/eslint/**"]
+    },
+    "//#lint:typescript": {
+      "inputs": [
+        "types/eslint-plugin-promise/*.d.ts",
+        "commitlint.config.js",
+        "eslint.config.js",
+        "lint-staged.config.js",
+        "prettier.config.js"
+      ],
+      "outputs": ["node_modules/.cache/typescript/**"]
+    },
+    "lint:typescript": {
+      "outputs": ["node_modules/.cache/typescript/**"]
+    },
+    "test:unit": {
+      "outputs": [
+        "src/**/*.unit.test.ts.snap",
+        "src/**/unit.test.ts.snap",
+        "test-reports/coverage/**",
+        "test-reports/unit/**"
+      ]
+    }
+  }
+}

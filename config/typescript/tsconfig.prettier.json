@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base",
+  "include": ["../../prettier.config.js"],
+  "compilerOptions": {
+    "rootDir": "../..",
+    "types": [],
+    "checkJs": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../node_modules/.cache/typescript/tsconfig.prettier.tsbuildinfo"
+  }
+}

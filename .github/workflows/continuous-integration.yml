@@ -1,0 +1,105 @@
+name: Continuous Integration
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+env:
+  DO_NOT_TRACK: 1
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+jobs:
+  refine:
+    name: Refine
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4.2.2
+      - name: Set tool versions
+        id: tool-versions
+        run: |
+          while IFS=' ' read -r tool version; do
+            echo "$tool=$version" >>"$GITHUB_OUTPUT"
+          done <.tool-versions
+      - name: Set up Node
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: ${{ steps.tool-versions.outputs.nodejs }}
+      - name: Set up Yarn
+        run: corepack enable yarn
+      - name: Set Yarn metadata
+        id: yarn-metadata
+        run: |
+          echo "module-cache-dir-path=$(yarn config get cacheFolder)" >>"$GITHUB_OUTPUT"
+          echo "version=$(yarn --version)" >>"$GITHUB_OUTPUT"
+      - name: Set up Yarn cache
+        uses: actions/cache@v4.1.2
+        with:
+          path: ${{ steps.yarn-metadata.outputs.module-cache-dir-path }}
+          key: yarn-${{ steps.yarn-metadata.outputs.version }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ steps.yarn-metadata.outputs.version }}-
+            yarn-
+      - name: Install JavaScript dependencies
+        run: yarn install --immutable
+      - name: Set up Turbo cache
+        uses: actions/cache@v4.1.2
+        with:
+          path: .turbo
+          key: turbo-${{ github.sha }}
+          restore-keys: |
+            turbo-
+      - name: Perform stylization and static analysis
+        run: yarn turbo run build --output-logs=errors-only && yarn concurrently --group --raw 'turbo run format --output-logs=errors-only' 'turbo run lint:javascript --output-logs=errors-only' 'turbo run lint:typescript --output-logs=errors-only'
+  test:
+    name: Test
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4.2.2
+      - name: Set tool versions
+        id: tool-versions
+        run: |
+          while IFS=' ' read -r tool version; do
+            echo "$tool=$version" >>"$GITHUB_OUTPUT"
+          done <.tool-versions
+      - name: Set up Node
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: ${{ steps.tool-versions.outputs.nodejs }}
+      - name: Set up Yarn
+        run: corepack enable yarn
+      - name: Set Yarn metadata
+        id: yarn-metadata
+        run: |
+          echo "module-cache-dir-path=$(yarn config get cacheFolder)" >>"$GITHUB_OUTPUT"
+          echo "version=$(yarn --version)" >>"$GITHUB_OUTPUT"
+      - name: Set up Yarn cache
+        uses: actions/cache@v4.1.2
+        with:
+          path: ${{ steps.yarn-metadata.outputs.module-cache-dir-path }}
+          key: yarn-${{ steps.yarn-metadata.outputs.version }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ steps.yarn-metadata.outputs.version }}-
+            yarn-
+      - name: Install JavaScript dependencies
+        run: yarn install --immutable
+      - name: Set up Turbo cache
+        uses: actions/cache@v4.1.2
+        with:
+          path: .turbo
+          key: turbo-${{ github.sha }}
+          restore-keys: |
+            turbo-
+      - name: Perform unit and end-to-end tests
+        run: yarn turbo run build --output-logs=errors-only && yarn concurrently --group --raw 'turbo run test:unit --output-logs=errors-only -- --coverage'
+      - name: Upload the test artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: test-reports
+          path: packages/*/test-reports
+          retention-days: 30

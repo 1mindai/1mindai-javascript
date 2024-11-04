@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base",
+  "include": ["../../../../eslint.config.js", "../../types/eslint-plugin-promise/*.d.ts", "../../eslint.config.js"],
+  "compilerOptions": {
+    "rootDir": "../../../..",
+    "types": ["node"],
+    "checkJs": true,
+    "composite": true,
+    "tsBuildInfoFile": "../../node_modules/.cache/typescript/tsconfig.eslint.tsbuildinfo",
+    "skipLibCheck": true
+  }
+}

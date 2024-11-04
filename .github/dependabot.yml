@@ -1,0 +1,59 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directories:
+      - /
+    schedule:
+      interval: daily
+      time: '10:00'
+      timezone: Etc/UTC
+    allow:
+      - dependency-type: all
+    commit-message:
+      prefix: build
+      include: scope
+    groups:
+      minor:
+        patterns:
+          - '*'
+        update-types:
+          - minor
+      patch:
+        patterns:
+          - '*'
+        update-types:
+          - patch
+    labels:
+      - ':horse: chore'
+    open-pull-requests-limit: 10
+    reviewers:
+      - 1mindai/developer-experience
+  - package-ecosystem: npm
+    directories:
+      - /
+    schedule:
+      interval: daily
+      time: '10:00'
+      timezone: Etc/UTC
+    allow:
+      - dependency-type: all
+    commit-message:
+      prefix: build
+      include: scope
+    groups:
+      minor:
+        patterns:
+          - '*'
+        update-types:
+          - minor
+      patch:
+        patterns:
+          - '*'
+        update-types:
+          - patch
+    labels:
+      - ':horse: chore'
+    open-pull-requests-limit: 10
+    reviewers:
+      - 1mindai/developer-experience
+    versioning-strategy: increase
