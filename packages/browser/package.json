@@ -21,7 +21,7 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--experimental-strip-types --no-warnings=ExperimentalWarning\" rollup --config=rollup.config.ts",
     "clean": "concurrently --group --raw \"yarn:clean:*\"",
-    "clean:artifact": "del .turbo dist \"*.log*\"",
+    "clean:artifact": "del .turbo dist test-reports \"*.log*\"",
     "clean:cache": "del node_modules/.cache",
     "format": "prettier --cache=node_modules/.cache/prettier/ --check --ignore-path=.prettierignore --log-level=warn \"**/*.@(json|md|yml)\"",
     "lint": "concurrently --group --raw \"yarn:lint:*\"",
